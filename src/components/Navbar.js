@@ -1,5 +1,6 @@
 import Link from "next/link";
 import PencilRuler from "./icons/PencilRuler";
+import LoginTab from "./LoginTab";
 
 const Navbar = () => {
   return (
@@ -10,7 +11,7 @@ const Navbar = () => {
           <h1 className="font-semibold">Todo-App</h1>
         </div>
       </Link>
-      {/* <LoginTab /> */}
+      <LoginTab />
     </nav>
   );
 };
