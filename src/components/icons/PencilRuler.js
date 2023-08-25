@@ -12,7 +12,7 @@ const PencilRuler = ({ ...props }) => {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      class="lucide lucide-pencil-ruler"
+      className="lucide lucide-pencil-ruler"
       {...props}>
       <path d="m15 5 4 4" />
       <path d="M13 7 8.7 2.7a2.41 2.41 0 0 0-3.4 0L2.7 5.3a2.41 2.41 0 0 0 0 3.4L7 13" />

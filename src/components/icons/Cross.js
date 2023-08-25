@@ -12,7 +12,7 @@ const Cross = ({ ...props }) => {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      class="lucide lucide-x"
+      className="lucide lucide-x"
       {...props}>
       <path d="M18 6 6 18" />
       <path d="m6 6 12 12" />
