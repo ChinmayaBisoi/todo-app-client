@@ -6,9 +6,9 @@ const Layout = ({ children }) => {
   return (
     <>
       <Navbar />
-      <div className="flex ">
+      <div className="">
         <Sidebar />
-        <div className="h-[2000px] md:ml-[200px]">{children}</div>
+        <div className="h-[2000px] md:ml-[200px] p-4 md:p-8">{children}</div>
       </div>
     </>
   );
