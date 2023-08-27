@@ -65,6 +65,10 @@ const PostLayout = ({ editing = false, postId }) => {
           description,
         },
       });
+      toast({
+        title: "Post saved successfully!",
+        description: "",
+      });
       router.push("/");
       return;
     }
@@ -76,6 +80,10 @@ const PostLayout = ({ editing = false, postId }) => {
         title,
         description,
       },
+    });
+    toast({
+      title: "Post created successfully!",
+      description: "",
     });
     router.push("/");
   }
