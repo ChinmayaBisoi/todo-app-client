@@ -1,4 +1,6 @@
 import "@/styles/globals.css";
+import { PostStateProvider } from "@/context/post-context";
+import { Toaster } from "@/components/ui/toaster";
 import { Inter, Poppins } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -9,8 +11,11 @@ const poppins = Poppins({
 
 export default function App({ Component, pageProps }) {
   return (
-    <div className={`${poppins.className}`}>
-      <Component {...pageProps} />;
-    </div>
+    <PostStateProvider>
+      <div className={`${poppins.className}`}>
+        <Component {...pageProps} />;
+        <Toaster />
+      </div>
+    </PostStateProvider>
   );
 }

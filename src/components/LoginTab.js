@@ -6,18 +6,18 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Button } from "./ui/button";
 
 const LoginTab = () => {
   return (
     <Dialog>
-      <DialogTrigger>Open</DialogTrigger>
+      <DialogTrigger className="bg-black text-white hover:bg-gray-800 p-2 px-4 rounded-md">
+        Login
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Login</DialogTitle>
-          <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </DialogDescription>
+          <DialogDescription>This is a work in progress</DialogDescription>
         </DialogHeader>
       </DialogContent>
     </Dialog>

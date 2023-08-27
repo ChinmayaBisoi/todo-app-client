@@ -8,17 +8,17 @@ const sidebarOptions = [
   {
     label: "Posts",
     url: "/",
-    icon: <FileText size={16} />,
+    icon: <FileText width="16" height="16" />,
   },
   {
     label: "Billing",
     url: "/billing",
-    icon: <CreditCard size={16} />,
+    icon: <CreditCard width="16" height="16" />,
   },
   {
     label: "Settings",
     url: "/settings",
-    icon: <Settings size={16} />,
+    icon: <Settings width="16" height="16" />,
   },
 ];
 const Sidebar = ({ hide = false }) => {
@@ -43,7 +43,7 @@ const Sidebar = ({ hide = false }) => {
           <Link key={label} href={url}>
             <div
               className={`py-2 px-4 rounded-md flex items-center gap-3
-            ${isActive(url) ? "bg-gray-200" : "hover:bg-gray-200"}
+            ${isActive(url) ? "bg-gray-100" : "hover:bg-gray-100"}
             `}>
               {icon}
               {label}
@@ -52,9 +52,9 @@ const Sidebar = ({ hide = false }) => {
         );
       })}
 
-      <div className="mt-56 bg-gray-200 rounded-md text-center">
+      {/* <div className="mt-56 bg-gray-100 rounded-md text-center">
         <p>Credits</p>
-      </div>
+      </div> */}
     </aside>
   );
 };
