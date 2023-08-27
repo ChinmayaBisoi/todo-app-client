@@ -3,6 +3,7 @@ import Link from "next/link";
 import FileText from "./icons/FileText";
 import CreditCard from "./icons/CreditCard.js";
 import Settings from "./icons/Settings";
+import Sprout from "./icons/Sprout";
 
 const sidebarOptions = [
   {
@@ -20,6 +21,11 @@ const sidebarOptions = [
     url: "/settings",
     icon: <Settings width="16" height="16" />,
   },
+  {
+    label: "About",
+    url: "/about",
+    icon: <Sprout width="16" height="16" />,
+  },
 ];
 const Sidebar = ({ hide = false }) => {
   const pathname = usePathname();
@@ -28,16 +34,14 @@ const Sidebar = ({ hide = false }) => {
     if (url === pathname) {
       return true;
     }
-
     return false;
   };
 
-  if (hide) {
-    return null;
-  }
-
   return (
-    <aside className="hidden stretch w-[200px] flex-col gap-4 md:flex p-4 py-8 fixed">
+    <aside
+      className={`${
+        hide ? "hidden md:flex" : ""
+      } stretch w-[200px] flex-col gap-4  p-4 py-8 fixed`}>
       {sidebarOptions.map(({ label, url, icon }) => {
         return (
           <Link key={label} href={url}>

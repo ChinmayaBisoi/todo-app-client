@@ -7,7 +7,7 @@ const Layout = ({ children }) => {
     <>
       <Navbar />
       <div className="">
-        <Sidebar />
+        <Sidebar hide />
         <div className="h-[2000px] md:ml-[200px] p-4 md:p-8">{children}</div>
       </div>
     </>
