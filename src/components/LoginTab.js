@@ -11,7 +11,7 @@ import { Button } from "./ui/button";
 const LoginTab = () => {
   return (
     <Dialog>
-      <DialogTrigger className="bg-black text-white hover:bg-gray-800 p-2 px-4 rounded-md">
+      <DialogTrigger className="bg-black text-white hover:bg-gray-800 p-2 px-4 rounded-md text-sm font-medium">
         Login
       </DialogTrigger>
       <DialogContent>
