@@ -27,7 +27,7 @@ const sidebarOptions = [
     icon: <Sprout width="16" height="16" />,
   },
 ];
-const Sidebar = ({ hide = false }) => {
+const Sidebar = ({ hide = false, isMob = false }) => {
   const pathname = usePathname();
 
   const isActive = (url) => {
@@ -39,9 +39,8 @@ const Sidebar = ({ hide = false }) => {
 
   return (
     <aside
-      className={`${
-        hide ? "hidden md:flex" : ""
-      } stretch w-[200px] flex-col gap-4  p-4 py-8 fixed`}>
+      className={`${isMob ? "" : "w-[200px] fixed"}
+      ${hide ? "hidden md:flex" : ""} stretch flex-col gap-4 p-4 py-8 `}>
       {sidebarOptions.map(({ label, url, icon }) => {
         return (
           <Link key={label} href={url}>

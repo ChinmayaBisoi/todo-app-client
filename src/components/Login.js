@@ -1,0 +1,26 @@
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
+const Login = () => {
+  return (
+    <Dialog>
+      <DialogTrigger className="bg-black text-white hover:bg-gray-800 p-2 px-4 rounded-md text-sm font-medium">
+        Login
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Login</DialogTitle>
+          <DialogDescription>This is a work in progress</DialogDescription>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export default Login;

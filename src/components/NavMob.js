@@ -9,7 +9,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Button } from "./ui/button";
 import Sidebar from "./Sidebar";
 import Hamburger from "./icons/Hamburger";
 
@@ -21,7 +20,7 @@ const NavMob = () => {
         <Hamburger width="20" height="20" className="min-w-[16px] md:hidden" />
       </SheetTrigger>
       <SheetContent side={side}>
-        <Sidebar />
+        <Sidebar isMob />
       </SheetContent>
     </Sheet>
   );

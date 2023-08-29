@@ -1,8 +1,8 @@
 import Link from "next/link";
-import Hamburger from "./icons/Hamburger";
 import PencilRuler from "./icons/PencilRuler";
-import LoginTab from "./LoginTab";
+import Login from "./Login";
 import NavMob from "./NavMob";
+import Register from "./Register";
 
 const Navbar = () => {
   return (
@@ -14,7 +14,10 @@ const Navbar = () => {
           <h1 className="font-semibold">Todo-App</h1>
         </Link>
       </div>
-      <LoginTab />
+      <div className="flex items-center gap-2">
+        <Register />
+        <Login />
+      </div>
     </nav>
   );
 };

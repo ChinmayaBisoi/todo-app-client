@@ -20,6 +20,14 @@ const AboutPage = () => {
             bisoi.chinmaya.1999@gmail.com
           </Link>{" "}
         </div>
+        <div className="flex items-center gap-2">
+          <p className="whitespace-nowrap">Github : </p>
+          <Link
+            className="text-blue-500"
+            href={"https://github.com/ChinmayaBisoi"}>
+            https://github.com/ChinmayaBisoi
+          </Link>{" "}
+        </div>
         <div className="flex items-center gap-1 whitespace-nowrap">
           <Copyright width="16" height="16" className="min-w-[16px]" />
           <p>2023 Chinmaya Bisoi</p>

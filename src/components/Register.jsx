@@ -7,15 +7,15 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-const LoginTab = () => {
+const Register = () => {
   return (
     <Dialog>
       <DialogTrigger className="bg-black text-white hover:bg-gray-800 p-2 px-4 rounded-md text-sm font-medium">
-        Login
+        Register
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Login</DialogTitle>
+          <DialogTitle>Register</DialogTitle>
           <DialogDescription>This is a work in progress</DialogDescription>
         </DialogHeader>
       </DialogContent>
@@ -23,4 +23,4 @@ const LoginTab = () => {
   );
 };
 
-export default LoginTab;
+export default Register;
