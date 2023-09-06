@@ -7,25 +7,25 @@ import React from "react";
 const AboutPage = () => {
   return (
     <Layout>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-4">
         <div className="flex items-center gap-1">
           <p>Developed with</p>
           <Heart width="16" height="16" />
         </div>
-        <div className="flex items-center gap-2">
-          <p className="whitespace-nowrap">Email : </p>
+        <div className="flex flex-col">
+          <p className="whitespace-nowrap">Email</p>
           <Link
             className="text-blue-500"
             href={"mailto: bisoi.chinmaya.1999@gmail.com"}>
             bisoi.chinmaya.1999@gmail.com
           </Link>{" "}
         </div>
-        <div className="flex items-center gap-2">
-          <p className="whitespace-nowrap">Github : </p>
+        <div className="flex flex-col">
+          <p className="whitespace-nowrap">Github</p>
           <Link
             className="text-blue-500"
-            href={"https://github.com/ChinmayaBisoi"}>
-            https://github.com/ChinmayaBisoi
+            href={"https://github.com/ChinmayaBisoi/todo-app-client"}>
+            https://github.com/ChinmayaBisoi/todo-app-client
           </Link>{" "}
         </div>
         <div className="flex items-center gap-1 whitespace-nowrap">

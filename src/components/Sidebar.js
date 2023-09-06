@@ -11,16 +11,16 @@ const sidebarOptions = [
     url: "/",
     icon: <FileText width="16" height="16" />,
   },
-  {
-    label: "Billing",
-    url: "/billing",
-    icon: <CreditCard width="16" height="16" />,
-  },
-  {
-    label: "Settings",
-    url: "/settings",
-    icon: <Settings width="16" height="16" />,
-  },
+  // {
+  //   label: "Billing",
+  //   url: "/billing",
+  //   icon: <CreditCard width="16" height="16" />,
+  // },
+  // {
+  //   label: "Settings",
+  //   url: "/settings",
+  //   icon: <Settings width="16" height="16" />,
+  // },
   {
     label: "About",
     url: "/about",

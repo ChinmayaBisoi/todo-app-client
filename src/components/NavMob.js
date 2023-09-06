@@ -17,7 +17,9 @@ const NavMob = () => {
   return (
     <Sheet key={side}>
       <SheetTrigger asChild>
-        <Hamburger width="20" height="20" className="min-w-[16px] md:hidden" />
+        <div className="min-w-[16px] md:hidden cursor-pointer">
+          <Hamburger width="20" height="20" />
+        </div>
       </SheetTrigger>
       <SheetContent side={side}>
         <Sidebar isMob />

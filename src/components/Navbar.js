@@ -14,10 +14,10 @@ const Navbar = () => {
           <h1 className="font-semibold">Todo-App</h1>
         </Link>
       </div>
-      <div className="flex items-center gap-2">
+      {/* <div className="flex items-center gap-2">
         <Register />
         <Login />
-      </div>
+      </div> */}
     </nav>
   );
 };
