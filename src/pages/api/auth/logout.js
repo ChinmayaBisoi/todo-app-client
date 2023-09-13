@@ -1,16 +1,11 @@
 import { BACKEND_HOST } from "@/constants/env";
 
-export default async function register({
-  firstname,
-  lastname,
-  email,
-  password,
-}) {
+export default async function logout() {
   try {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
-    const raw = JSON.stringify({ firstname, lastname, email, password });
+    const raw = JSON.stringify({});
 
     const requestOptions = {
       method: "POST",
@@ -21,10 +16,7 @@ export default async function register({
       mode: "cors",
     };
 
-    const response = await fetch(
-      `${BACKEND_HOST}/auth/register`,
-      requestOptions
-    );
+    const response = await fetch(`${BACKEND_HOST}/auth/logout`, requestOptions);
     return await response.json();
   } catch (error) {
     console.log(error);

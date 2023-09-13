@@ -4,26 +4,47 @@ import ChevronLeft from "../icons/ChevronLeft";
 import { Button } from "../ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { usePostState, usePostStateDispatch } from "@/context/post-context";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useToast } from "../ui/use-toast";
+import { useLoginState } from "@/context/login-context";
+import addTodo from "@/pages/api/posts/add-todo";
+import updateTodo from "@/pages/api/posts/update-todo";
+import getTodoById from "@/pages/api/posts/get-todo-by-id";
 
 const PostLayout = ({ editing = false, postId }) => {
+  console.log(postId, ">>>>>>>>>>>><<<<<<<<");
   const router = useRouter();
   const { toast } = useToast();
   const postState = usePostState();
   const postStateDispatch = usePostStateDispatch();
 
+  const loginState = useLoginState();
+  const isLoggedIn = loginState.isLoggedIn;
+
+  const [fetchedPost, setFetchedPost] = useState(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   let uuid = crypto.randomUUID();
 
   function initPost() {
-    console.log("init Post ran");
-    const foundPost = postState.tempPosts?.find((k) => k.id === postId);
-    console.log(foundPost);
+    if (!postId) return;
+    let foundPost = postState.tempPosts?.find((k) => k.id === postId);
+    if (!foundPost) {
+      foundPost = postState.savedPosts?.find((k) => postId === k._id);
+    }
+    if (!foundPost) {
+      console.log("here >>>>>>");
+      foundPost = fetchedPost;
+    }
+
     if (editing) {
       if (!foundPost) {
         console.log("post not found");
+        toast({
+          title: "Post not found",
+          description: "",
+          variant: "destructive",
+        });
       } else {
         console.log(foundPost);
         setTitle(foundPost.title);
@@ -31,14 +52,25 @@ const PostLayout = ({ editing = false, postId }) => {
         uuid = foundPost.id;
       }
     }
-    // else {
-    //   setTitle(foundPost.title);
-    //   setDescription(foundPost.description);
-    //   uuid = foundPost.id;
-    // }
   }
 
-  function savePost() {
+  useEffect(() => {
+    if (!editing) return;
+    (async function () {
+      await getTodoById({ postId })
+        .then((res) => {
+          if (res.ok) {
+            setFetchedPost(res.post);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          toast({});
+        });
+    })();
+  }, []);
+
+  async function savePost() {
     if (!title) {
       toast({
         title: "Title is required!",
@@ -53,6 +85,62 @@ const PostLayout = ({ editing = false, postId }) => {
         description: "",
         variant: "destructive",
       });
+      return;
+    }
+
+    if (isLoggedIn) {
+      if (editing) {
+        await updateTodo({ title, description, id: postId })
+          .then((res) => {
+            console.log(res);
+            if (res.ok) {
+              postStateDispatch({
+                type: "update-post",
+                post: res.todo,
+              });
+              router.push("/");
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            toast({
+              title: "Unexpected error updating todo",
+              description: err,
+              variant: "desctructive",
+            });
+          });
+        return;
+      }
+
+      await addTodo({ title, description })
+        .then((res) => {
+          if (res.ok) {
+            const post = res.todo;
+            postStateDispatch({
+              type: "save-post",
+              post: {
+                id: post._id,
+                title: post.title,
+                description: post.description,
+                updatedAt: post.updatedAt,
+                isChecked: post.isChecked,
+              },
+            });
+            toast({
+              title: "Post saved",
+              description: "",
+            });
+            router.push("/");
+          }
+        })
+        .catch((err) => {
+          toast({
+            title: "Error saving post",
+            description: err,
+            variant: "desctructive",
+          });
+        });
+
       return;
     }
 
@@ -89,12 +177,8 @@ const PostLayout = ({ editing = false, postId }) => {
   }
 
   useEffect(() => {
-    console.log("useEffect ran");
-  });
-
-  useEffect(() => {
     initPost();
-  }, [postId]);
+  }, [postId, fetchedPost]);
 
   return (
     <div className="md:p-8 p-4 min-h-screen">

@@ -1,22 +1,17 @@
 import { BACKEND_HOST } from "@/constants/env";
 
-export default async function register({ email, password }) {
+export default async function deleteTodo({ todoId }) {
   try {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
-    const raw = JSON.stringify({ email, password });
-
-    const requestOptions = {
-      method: "POST",
+    const response = await fetch(`${BACKEND_HOST}/todos/${todoId}`, {
+      method: "DELETE",
       headers: myHeaders,
-      body: raw,
       redirect: "follow",
       credentials: "include",
       mode: "cors",
-    };
-
-    const response = await fetch(`${BACKEND_HOST}/auth/signup`, requestOptions);
+    });
     return await response.json();
   } catch (error) {
     console.log(error);

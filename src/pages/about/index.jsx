@@ -8,9 +8,9 @@ const AboutPage = () => {
   return (
     <Layout>
       <div className="flex flex-col gap-4">
-        <div className="flex items-center gap-1">
-          <p>Developed with</p>
-          <Heart width="16" height="16" />
+        <div className="flex items-center gap-2 font-semibold">
+          <p className="text-4xl">Developed with</p>
+          <Heart width="28" height="28" />
         </div>
         <div className="flex flex-col">
           <p className="whitespace-nowrap">Email</p>

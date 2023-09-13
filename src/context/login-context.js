@@ -5,6 +5,8 @@ const LoginStateDispatchContext = React.createContext(undefined);
 
 const initialState = {
   isLoggedIn: false,
+  email: null,
+  userId: null,
 };
 
 function loginStateReducer(state, action) {
@@ -12,6 +14,15 @@ function loginStateReducer(state, action) {
     case "update-user-info":
       const userInfo = { ...(action?.userData || {}) };
       return { ...state, isLoggedIn: true, ...userInfo };
+    case "login":
+      return {
+        ...state,
+        isLoggedIn: true,
+        email: action.email,
+        userId: action.userId,
+      };
+    case "logout":
+      return { ...state, isLoggedIn: false, email: null, userId: null };
     default:
       return state;
   }

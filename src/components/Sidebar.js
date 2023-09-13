@@ -1,15 +1,19 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import FileText from "./icons/FileText";
-import CreditCard from "./icons/CreditCard.js";
-import Settings from "./icons/Settings";
 import Sprout from "./icons/Sprout";
+import User from "./icons/User";
 
 const sidebarOptions = [
   {
     label: "Posts",
     url: "/",
     icon: <FileText width="16" height="16" />,
+  },
+  {
+    label: "Profile",
+    url: "/profile",
+    icon: <User width="16" height="16" />,
   },
   // {
   //   label: "Billing",
@@ -22,7 +26,7 @@ const sidebarOptions = [
   //   icon: <Settings width="16" height="16" />,
   // },
   {
-    label: "About",
+    label: "About Dev",
     url: "/about",
     icon: <Sprout width="16" height="16" />,
   },

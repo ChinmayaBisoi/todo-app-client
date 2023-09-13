@@ -1,29 +1,59 @@
 import "@/styles/globals.css";
 import { PostStateProvider } from "@/context/post-context";
 import { Toaster } from "@/components/ui/toaster";
-import { Inter, Poppins } from "next/font/google";
+import { Poppins } from "next/font/google";
+import {
+  LoginStateProvider,
+  useLoginState,
+  useLoginStateDispatch,
+} from "@/context/login-context";
 import { useEffect } from "react";
-import wakeServer from "./api/wake-server";
-import { LoginStateProvider } from "@/context/login-context";
+import checkAuth from "./api/auth/check-auth";
+import { useToast } from "@/components/ui/use-toast";
 
-const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({
   weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
 });
 
-export default function App({ Component, pageProps }) {
-  useEffect(() => {
-    wakeServer();
-  }, []);
+function Wrapper({ Component, pageProps }) {
+  const { toast } = useToast();
+  const loginState = useLoginState();
+  const loginStateDispatch = useLoginStateDispatch();
+  const isLoggedIn = loginState.isLoggedIn;
 
+  useEffect(() => {
+    if (!isLoggedIn) {
+      (async function tryToLogin() {
+        await checkAuth().then((res) => {
+          if (res.ok) {
+            loginStateDispatch({
+              type: "login",
+              email: res.userInfo.email,
+              userId: res.userInfo.id,
+            });
+            toast({
+              title: "Login successfull",
+              description: "Automatically logged in <3",
+            });
+          }
+        });
+      })();
+    }
+  }, [isLoggedIn]);
+  return (
+    <div className={`${poppins.className}`}>
+      <Component {...pageProps} />
+      <Toaster />
+    </div>
+  );
+}
+
+export default function App({ Component, pageProps }) {
   return (
     <LoginStateProvider>
       <PostStateProvider>
-        <div className={`${poppins.className}`}>
-          <Component {...pageProps} />;
-          <Toaster />
-        </div>
+        <Wrapper Component={Component} pageProps={pageProps} />
       </PostStateProvider>
     </LoginStateProvider>
   );

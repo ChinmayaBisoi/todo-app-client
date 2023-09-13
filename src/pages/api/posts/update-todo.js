@@ -1,22 +1,20 @@
 import { BACKEND_HOST } from "@/constants/env";
 
-export default async function register({ email, password }) {
+export default async function updateTodo({ title, description, id }) {
   try {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
-    const raw = JSON.stringify({ email, password });
+    const raw = JSON.stringify({ title, description, id });
 
-    const requestOptions = {
-      method: "POST",
+    const response = await fetch(`${BACKEND_HOST}/todos`, {
+      method: "PATCH",
       headers: myHeaders,
       body: raw,
       redirect: "follow",
       credentials: "include",
       mode: "cors",
-    };
-
-    const response = await fetch(`${BACKEND_HOST}/auth/signup`, requestOptions);
+    });
     return await response.json();
   } catch (error) {
     console.log(error);

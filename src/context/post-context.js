@@ -11,6 +11,7 @@ const initialState = {
       description: "Test description 123455",
     },
   ],
+  savedPosts: null,
 };
 
 function postStateReducer(state, action) {
@@ -36,6 +37,31 @@ function postStateReducer(state, action) {
     case "delete-temp-post": {
       const filteredPosts = tempPosts.filter((k) => k.id !== action.postId);
       return { ...state, tempPosts: filteredPosts };
+    }
+
+    case "set-posts": {
+      const posts = action.posts;
+      console.log("posts set from backend");
+      return { ...state, savedPosts: posts };
+    }
+
+    case "save-post": {
+      const newPost = action.post;
+      return { ...state, savedPosts: [newPost, ...savedPosts] };
+    }
+
+    case "update-post": {
+      const updatedPost = action.post;
+      const filteredPosts = savedPosts.map((post) => {
+        if (post._id === updatedPost._id) return { ...updatedPost };
+        return post;
+      });
+      return { ...state, savedPosts: [...filteredPosts] };
+    }
+
+    case "delete-post": {
+      const filteredPosts = savedPosts.filter((k) => k._id !== action.postId);
+      return { ...state, savedPosts: filteredPosts };
     }
 
     default: {
