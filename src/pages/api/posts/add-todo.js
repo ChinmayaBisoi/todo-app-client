@@ -17,7 +17,7 @@ export default async function addTodo({
       body: raw,
       redirect: "follow",
       credentials: "include",
-      mode: "no-cors",
+      mode: "cors",
     });
     return await response.json();
   } catch (error) {

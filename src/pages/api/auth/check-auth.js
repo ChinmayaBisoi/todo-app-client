@@ -5,7 +5,7 @@ export default async function checkAuth() {
     const response = await fetch(`${BACKEND_HOST}/auth/check-auth`, {
       method: "GET",
       credentials: "include",
-      mode: "no-cors",
+      mode: "cors",
     });
     return await response.json();
   } catch (error) {
