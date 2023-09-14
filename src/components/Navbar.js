@@ -14,9 +14,14 @@ const Navbar = () => {
   const userEmail = loginState.email;
 
   async function handleHello() {
-    await fetch("/api/hello").then((res) => {
-      console.log("this is hello api res", res);
-    });
+    await fetch("/api/hello")
+      .then((res) => {
+        console.log("this is hello api res", res);
+        return res.json();
+      })
+      .then((res) => {
+        console.log("res", res);
+      });
   }
 
   return (
