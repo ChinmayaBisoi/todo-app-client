@@ -2,14 +2,14 @@ import { BACKEND_HOST } from "@/constants/env";
 
 export default async function login({ email, password }) {
   try {
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
     const raw = JSON.stringify({ email, password });
 
     const requestOptions = {
       method: "POST",
-      headers: myHeaders,
+      headers: {
+        "Content-Type": "application/json",
+        Origin: "https://cbi-todo-app.vercel.app",
+      },
       body: raw,
       redirect: "follow",
       credentials: "include",

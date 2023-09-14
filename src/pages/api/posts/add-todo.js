@@ -6,14 +6,14 @@ export default async function addTodo({
   isChecked = false,
 }) {
   try {
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
     const raw = JSON.stringify({ title, description, isChecked });
 
     const response = await fetch(`${BACKEND_HOST}/todos`, {
       method: "POST",
-      headers: myHeaders,
+      headers: {
+        "Content-Type": "application/json",
+        Origin: "https://cbi-todo-app.vercel.app",
+      },
       body: raw,
       redirect: "follow",
       credentials: "include",

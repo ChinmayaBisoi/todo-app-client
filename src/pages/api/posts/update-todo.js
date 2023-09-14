@@ -9,6 +9,10 @@ export default async function updateTodo({ title, description, id }) {
 
     const response = await fetch(`${BACKEND_HOST}/todos`, {
       method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Origin: "https://cbi-todo-app.vercel.app",
+      },
       headers: myHeaders,
       body: raw,
       redirect: "follow",
