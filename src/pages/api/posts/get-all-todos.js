@@ -5,7 +5,7 @@ export default async function getAllTodos() {
     const response = await fetch(`${BACKEND_HOST}/todos/all`, {
       method: "GET",
       credentials: "include",
-      mode: "cors",
+      mode: "no-cors",
     });
     return await response.json();
   } catch (error) {

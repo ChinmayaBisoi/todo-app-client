@@ -6,7 +6,7 @@ export default async function getTodoById({ postId }) {
       method: "GET",
       redirect: "follow",
       credentials: "include",
-      mode: "cors",
+      mode: "no-cors",
     });
 
     return await response.json();

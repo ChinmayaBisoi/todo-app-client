@@ -13,7 +13,7 @@ export default async function updateTodo({ title, description, id }) {
       body: raw,
       redirect: "follow",
       credentials: "include",
-      mode: "cors",
+      mode: "no-cors",
     });
     return await response.json();
   } catch (error) {

@@ -13,7 +13,7 @@ export default async function login({ email, password }) {
       body: raw,
       redirect: "follow",
       credentials: "include",
-      mode: "cors",
+      mode: "no-cors",
     };
 
     const response = await fetch(`${BACKEND_HOST}/auth/login`, requestOptions);

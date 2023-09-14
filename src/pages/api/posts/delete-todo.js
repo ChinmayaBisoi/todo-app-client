@@ -10,7 +10,7 @@ export default async function deleteTodo({ todoId }) {
       headers: myHeaders,
       redirect: "follow",
       credentials: "include",
-      mode: "cors",
+      mode: "no-cors",
     });
     return await response.json();
   } catch (error) {

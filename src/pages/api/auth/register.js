@@ -13,7 +13,7 @@ export default async function register({ email, password }) {
       body: raw,
       redirect: "follow",
       credentials: "include",
-      mode: "cors",
+      mode: "no-cors",
     };
 
     const response = await fetch(`${BACKEND_HOST}/auth/signup`, requestOptions);
