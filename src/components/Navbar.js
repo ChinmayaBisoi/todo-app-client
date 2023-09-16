@@ -1,5 +1,4 @@
 import { useLoginState } from "@/context/login-context";
-import hello from "@/pages/api/hello";
 import Link from "next/link";
 import PencilRuler from "./icons/PencilRuler";
 import Login from "./Login";
@@ -14,9 +13,9 @@ const Navbar = () => {
   const userEmail = loginState.email;
 
   async function handleHello() {
-    await fetch("/api/hello")
+    await fetch("/api/users/get-all-users")
       .then((res) => {
-        console.log("this is hello api res", res);
+        console.log("get all users api -> ", res);
         return res.json();
       })
       .then((res) => {
@@ -33,7 +32,7 @@ const Navbar = () => {
           <h1 className="font-semibold">Todo-App</h1>
         </Link>
       </div>
-      <Button onClick={handleHello}>Hello api</Button>
+      <Button onClick={handleHello}>get all users</Button>
       {isLoggedIn ? (
         <UserProfileDropdown email={userEmail} />
       ) : (
