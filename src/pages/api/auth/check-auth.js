@@ -5,7 +5,7 @@ export default async function checkAuth() {
     const response = await fetch(`${BACKEND_HOST}/auth/check-auth`, {
       method: "GET",
       headers: {
-        Origin: "https://cbi-todo-app.vercel.app",
+        "Content-Type": "application/json",
       },
       credentials: "include",
       mode: "cors",
