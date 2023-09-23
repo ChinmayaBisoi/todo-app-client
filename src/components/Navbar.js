@@ -33,7 +33,6 @@ const Navbar = () => {
           <h1 className="font-semibold">Todo-App</h1>
         </Link>
       </div>
-      <Button onClick={handleHello}>Hello api</Button>
       {isLoggedIn ? (
         <UserProfileDropdown email={userEmail} />
       ) : (
