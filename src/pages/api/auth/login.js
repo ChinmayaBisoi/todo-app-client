@@ -8,7 +8,6 @@ export default async function login({ email, password }) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Origin: "https://cbi-todo-app.vercel.app",
       },
       body: raw,
       redirect: "follow",
