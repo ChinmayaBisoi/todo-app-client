@@ -11,10 +11,13 @@ function autoResize() {
 
 const Textarea = React.forwardRef(
   ({ className, autoResizable, ...props }, ref) => {
+    const newId = React.useId();
+    const id = props.id ?? newId;
     React.useEffect(() => {
       if (!autoResizable) return;
 
-      const textarea = document.querySelector("textarea");
+      const textarea = document.querySelector(`textarea#${id}`);
+      console.log(textarea);
       textarea.addEventListener("input", autoResize, false);
 
       return () => {
@@ -24,6 +27,7 @@ const Textarea = React.forwardRef(
 
     return (
       <textarea
+        id={props.id ?? id}
         className={cn(
           "flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
           className,
