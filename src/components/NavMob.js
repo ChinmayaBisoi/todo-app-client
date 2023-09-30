@@ -21,7 +21,7 @@ const NavMob = () => {
           <Hamburger width="20" height="20" />
         </div>
       </SheetTrigger>
-      <SheetContent side={side}>
+      <SheetContent side={side} className="max-w-[300px]">
         <Sidebar isMob />
       </SheetContent>
     </Sheet>

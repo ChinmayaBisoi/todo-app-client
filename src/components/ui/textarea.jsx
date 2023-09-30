@@ -17,7 +17,6 @@ const Textarea = React.forwardRef(
       if (!autoResizable) return;
 
       const textarea = document.querySelector(`textarea#${id}`);
-      console.log(textarea);
       textarea.addEventListener("input", autoResize, false);
 
       return () => {

@@ -7,8 +7,8 @@ const Layout = ({ children }) => {
     <>
       <Navbar />
       <div className="">
-        <Sidebar hide />
-        <div className="h-[2000px] md:ml-[200px] p-4 md:p-8">{children}</div>
+        <Sidebar isMain />
+        <div className="mb-20 md:ml-[200px] px-4 py-8 md:p-8">{children}</div>
       </div>
     </>
   );

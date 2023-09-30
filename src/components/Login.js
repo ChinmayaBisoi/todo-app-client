@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 const Login = () => {
   return (
     <Link href="/login">
-      <Button>Login</Button>
+      <Button className="w-20 xs:w-[120px]">Login</Button>
     </Link>
   );
 };

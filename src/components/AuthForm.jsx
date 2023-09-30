@@ -11,20 +11,39 @@ import { useRouter } from "next/navigation";
 import { useLoginState, useLoginStateDispatch } from "@/context/login-context";
 import register from "@/pages/api/auth/register";
 
+const initialFormState = {
+  email: "",
+  password: "",
+  showPassword: false,
+  password2: "",
+  showPassword2: false,
+};
+
 const AuthForm = ({ type = "login" }) => {
   const loginStateDispatch = useLoginStateDispatch();
-  const loginState = useLoginState();
-  const isLoggedIn = loginState.isLoggedIn;
+  const { isLoggedIn } = useLoginState();
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
   const { toast } = useToast();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [
+    { email, password, showPassword, password2, showPassword2 },
+    setFormState,
+  ] = useState(initialFormState);
 
   const isLogin = type === "login";
+
+  function handleChange(e) {
+    setFormState((prev) => {
+      return { ...prev, [e.target.name]: e.target.value };
+    });
+  }
+
+  function handlePasswordVisibility(query) {
+    setFormState((prev) => {
+      return { ...prev, [query]: !prev[query] };
+    });
+  }
 
   async function handleLogin() {
     if (isLoggedIn) {
@@ -36,25 +55,17 @@ const AuthForm = ({ type = "login" }) => {
       return;
     }
 
-    if (!email) {
+    if (!email || !password) {
       toast({
-        title: "Email is required",
+        title: `${!email ? "Email" : "Password"} is required`,
         description: "",
         variant: "destructive",
       });
       return;
     }
 
-    if (!password) {
-      toast({
-        title: "Password is required",
-        description: "",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    login({ email, password })
+    setLoading(true);
+    await login({ email, password })
       .then((res) => {
         if (res.ok) {
           toast({
@@ -81,6 +92,7 @@ const AuthForm = ({ type = "login" }) => {
           variant: "destructive",
         });
       });
+    setLoading(false);
   }
 
   function handleRegister() {
@@ -152,12 +164,11 @@ const AuthForm = ({ type = "login" }) => {
           <Label htmlFor="email">Email</Label>
           <Input
             id="email"
+            name="email"
             type="email"
             className="outline-none"
             value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
+            onChange={handleChange}
           />
         </div>
         <div>
@@ -165,56 +176,54 @@ const AuthForm = ({ type = "login" }) => {
           <div className="flex items-center border border-gray-200 rounded-md">
             <Input
               id="password"
+              name="password"
               className="border-none outline-none"
               type={showPassword ? "text" : "password"}
               value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
+              onChange={handleChange}
             />
             {showPassword ? (
               <EyeOpen
                 onClick={() => {
-                  setShowPassword(false);
+                  handlePasswordVisibility("showPassword");
                 }}
-                className="mr-2"
+                wrapperCss="p-2 hover:bg-gray-200"
               />
             ) : (
               <EyeClose
                 onClick={() => {
-                  setShowPassword(true);
+                  handlePasswordVisibility("showPassword");
                 }}
-                className="mr-2"
+                wrapperCss="p-2 hover:bg-gray-200"
               />
             )}
           </div>
         </div>
         {!isLogin && (
           <div>
-            <Label htmlFor="confirmPassword">Confirm password</Label>
+            <Label htmlFor="password2">Confirm password</Label>
             <div className="flex items-center border border-gray-200 rounded-md">
               <Input
-                id="confirmPassword"
+                id="password2"
+                name="password2"
                 className="border-none outline-none"
-                type={showConfirmPassword ? "text" : "password"}
-                value={confirmPassword}
-                onChange={(e) => {
-                  setConfirmPassword(e.target.value);
-                }}
+                type={showPassword2 ? "text" : "password"}
+                value={password2}
+                onChange={handleChange}
               />
-              {showConfirmPassword ? (
+              {showPassword2 ? (
                 <EyeOpen
                   onClick={() => {
-                    setShowConfirmPassword(false);
+                    handlePasswordVisibility("showPassword2");
                   }}
-                  className="mr-2"
+                  wrapperCss="p-2 hover:bg-gray-200"
                 />
               ) : (
                 <EyeClose
                   onClick={() => {
-                    setShowConfirmPassword(true);
+                    handlePasswordVisibility("showPassword2");
                   }}
-                  className="mr-2"
+                  wrapperCss="p-2 hover:bg-gray-200"
                 />
               )}
             </div>
@@ -233,11 +242,17 @@ const AuthForm = ({ type = "login" }) => {
           </Link>
         </div>
         {isLogin ? (
-          <Button className="" onClick={handleLogin}>
+          <Button
+            disabled={isLoggedIn || loading}
+            loading={loading}
+            onClick={handleLogin}>
             Login
           </Button>
         ) : (
-          <Button className="" onClick={handleRegister}>
+          <Button
+            disabled={isLoggedIn || loading}
+            loading={loading}
+            onClick={handleRegister}>
             Register
           </Button>
         )}

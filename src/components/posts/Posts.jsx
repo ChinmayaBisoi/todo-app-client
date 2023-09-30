@@ -2,7 +2,7 @@ import { useLoginState } from "@/context/login-context";
 import { usePostState, usePostStateDispatch } from "@/context/post-context";
 import getAllTodos from "@/pages/api/posts/get-all-todos";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import InformationCircle from "../icons/InformationCircle";
 import VerticalDots from "../icons/VerticalDots";
 import { Tooltip } from "../Tooltip";
@@ -11,26 +11,50 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { format } from "date-fns";
 import { useToast } from "../ui/use-toast";
 import deleteTodo from "@/pages/api/posts/delete-todo";
+import PostLists from "./PostLists";
+import PostForm from "./PostForm";
+import { Input } from "../ui/input";
+import Cross from "../icons/Cross";
+
+function getSortedPosts(arr) {
+  return arr
+    .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+    .sort((a, b) => {
+      const pinnedA = a.isPinned;
+      const pinnedB = b.isPinned;
+      if ((pinnedA && pinnedB) || (!pinnedA && !pinnedB)) {
+        return 0;
+      } else if (pinnedB && !pinnedA) {
+        return 1;
+      } else {
+        return -1;
+      }
+    });
+}
+
+function getFilteredPosts(arr, searchQuery) {
+  return arr.filter(({ title, description, labels }) => {
+    return (
+      title.includes(searchQuery) ||
+      description.includes(searchQuery) ||
+      labels.filter((k) => k.includes(searchQuery)).length > 0
+    );
+  });
+}
 
 const Posts = () => {
-  const postState = usePostState();
+  const { tempPosts, savedPosts, loadingTempPosts, loadingPosts } =
+    usePostState();
   const postStateDispatch = usePostStateDispatch();
 
   const { toast } = useToast();
 
-  const loginState = useLoginState();
-  const isLoggedIn = loginState.isLoggedIn;
-
-  console.log(postState);
-
-  const tempPosts = postState.tempPosts;
-  const savedPosts = postState.savedPosts;
+  const { isLoggedIn } = useLoginState();
+  const [searchQuery, setSearchQuery] = useState("");
 
   async function deletePost(postId) {
-    const isSavedPost = postState.savedPosts.find(
-      (post) => post._id === postId
-    );
-    const isTempPost = postState.tempPosts.find((post) => post.id === postId);
+    const isSavedPost = savedPosts.find((post) => post._id === postId);
+    const isTempPost = tempPosts.find((post) => post._id === postId);
 
     if (isTempPost) {
       postStateDispatch({
@@ -40,8 +64,8 @@ const Posts = () => {
       toast({
         title: "Post deleted",
         description: "",
-        variant: "destructive",
       });
+      return;
     }
 
     if (isSavedPost) {
@@ -55,31 +79,24 @@ const Posts = () => {
           toast({
             title: "Post deleted",
             description: "",
-            variant: "destructive",
           });
         }
       });
     }
   }
 
-  useEffect(() => {
-    console.log(postState);
-  });
+  const sortedTempPosts = getSortedPosts(tempPosts);
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      (async function fetchAllTodos() {
-        await getAllTodos().then((res) => {
-          if (res.ok) {
-            postStateDispatch({
-              type: "set-posts",
-              posts: res.todos,
-            });
-          }
-        });
-      })();
-    }
-  }, [isLoggedIn]);
+  const filteredTempPosts = !searchQuery
+    ? sortedTempPosts
+    : getFilteredPosts(sortedTempPosts, searchQuery);
+
+  const sortedPosts = getSortedPosts(savedPosts);
+
+  const filteredPosts = !searchQuery
+    ? sortedPosts
+    : getFilteredPosts(sortedPosts, searchQuery);
+
   return (
     <div className="flex flex-col gap-4 md:gap-8">
       <div className="flex items-center justify-between">
@@ -87,129 +104,72 @@ const Posts = () => {
           <h1 className="text-4xl font-semibold">Posts</h1>
           <h3 className="text-gray-500">Create and manage posts.</h3>
         </div>
-        <Link href="/posts/new">
-          <Button className="flex items-center gap-2">
-            <span>+</span>
-            <span>New post</span>
-          </Button>
-        </Link>
       </div>
       <div>
-        <div className="flex items-center gap-2 mb-4">
-          <h2 className="text-xl font-semibold">Temporary posts</h2>
-          <Tooltip
-            content={
-              "Temporary post is implemented for guest users to experience the app"
-            }>
-            <InformationCircle
-              className="cursor-pointer mt-0.5"
-              width={16}
-              height={16}
+        <div className="xs:mb-8 mb-4">
+          <div className="flex items-center border border-gray-300 rounded-lg">
+            <Input
+              name="search"
+              id="search"
+              value={searchQuery}
+              placeholder="Search your post.."
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+              }}
+              autoComplete="off"
+              className="border-none outline-none"
             />
-          </Tooltip>
+            <Cross
+              onClick={() => {
+                setSearchQuery("");
+              }}
+              wrapperCss="p-3 rounded-r-lg h-max hover:bg-gray-200"
+              className="text-gray-600"
+              width={20}
+              height={20}
+            />
+          </div>
         </div>
-        <div className="flex flex-col gap-4">
-          {tempPosts?.length > 0 ? (
-            tempPosts.map(({ title, description, id }) => {
-              return (
-                <div
-                  key={id + title + description}
-                  className="p-4 flex md:gap-4 gap-2 border border-gray-300 rounded-lg">
-                  <div className="grow">
-                    <p className="text-lg font-semibold">{title}</p>
-                    <p>{description}</p>
-                  </div>
-                  <Popover>
-                    <PopoverTrigger className="self-start">
-                      <div className="p-2 border border-gray-200 hover:bg-gray-100 self-start rounded-md">
-                        <VerticalDots height="16" width="16" />
-                      </div>
-                    </PopoverTrigger>
-                    <PopoverContent align="end" className="w-[100px] p-0">
-                      <div className="flex flex-col">
-                        <Link href={`/posts/edit/${id}`}>
-                          <Button
-                            variant="ghost"
-                            className="w-full justify-start">
-                            Edit
-                          </Button>
-                        </Link>
-                        <Button
-                          onClick={() => {
-                            deletePost(id);
-                          }}
-                          variant="ghost"
-                          className="justify-start !text-red-500">
-                          Delete
-                        </Button>
-                      </div>
-                    </PopoverContent>
-                  </Popover>
-                </div>
-              );
-            })
-          ) : (
-            <p>No Posts present</p>
-          )}
-        </div>
-        <div className="mt-8">
-          <h2 className="text-xl font-semibold mb-4">Saved Posts</h2>
+        <div id="postContent">
+          <div className="flex xs:flex-row flex-col xs:items-center justify-between gap-2 mb-6">
+            <div className="flex items-center gap-2">
+              <h2 className="text-2xl font-semibold">Temporary posts</h2>
+              <Tooltip
+                content={
+                  "Temporary post is implemented for guest users to experience the app"
+                }>
+                <InformationCircle
+                  className="cursor-pointer mt-0.5"
+                  width={16}
+                  height={16}
+                />
+              </Tooltip>
+            </div>
+            <PostForm isTemp />
+          </div>
+          <PostLists
+            isTemp
+            loading={loadingTempPosts}
+            posts={filteredTempPosts}
+            deletePost={deletePost}
+          />
+
+          <div className="xs:mt-10 mt-4 flex xs:flex-row flex-col xs:items-center justify-between gap-2 mb-6">
+            <h2 className="text-2xl font-semibold">Saved Posts</h2>
+            <PostForm disabled={!isLoggedIn} />
+          </div>
           <div className="flex flex-col gap-4">
             {isLoggedIn ? (
-              savedPosts?.length > 0 ? (
-                savedPosts
-                  .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
-                  .map(({ title, description, _id: id, updatedAt }) => {
-                    console.log(updatedAt);
-                    const postUpdatedAt = format(
-                      new Date(updatedAt),
-                      "dd MMM yyyy"
-                    );
-                    return (
-                      <div
-                        key={id ?? updatedAt}
-                        className="p-4 flex md:gap-4 gap-2 border border-gray-300 rounded-lg">
-                        <div className="grow">
-                          <p className="text-xs font-semibold">
-                            {postUpdatedAt}
-                          </p>
-                          <p className="text-lg font-semibold">{title}</p>
-                          <p>{description}</p>
-                        </div>
-                        <Popover>
-                          <PopoverTrigger className="self-start">
-                            <div className="p-2 border border-gray-200 hover:bg-gray-100 self-start rounded-md">
-                              <VerticalDots height="16" width="16" />
-                            </div>
-                          </PopoverTrigger>
-                          <PopoverContent align="end" className="w-[100px] p-0">
-                            <div className="flex flex-col">
-                              <Link href={`/posts/edit/${id}`}>
-                                <Button
-                                  variant="ghost"
-                                  className="w-full justify-start">
-                                  Edit
-                                </Button>
-                              </Link>
-                              <Button
-                                onClick={() => {
-                                  deletePost(id);
-                                }}
-                                variant="ghost"
-                                className="justify-start !text-red-500">
-                                Delete
-                              </Button>
-                            </div>
-                          </PopoverContent>
-                        </Popover>
-                      </div>
-                    );
-                  })
-              ) : (
-                <p>No posts available.</p>
-              )
+              <PostLists
+                loading={loadingPosts}
+                posts={filteredPosts}
+                deletePost={deletePost}
+              />
             ) : (
-              <p>Login to view saved posts.</p>
+              <p>
+                <span className="font-semibold">Login</span> to create and view
+                saved posts.
+              </p>
             )}
           </div>
         </div>

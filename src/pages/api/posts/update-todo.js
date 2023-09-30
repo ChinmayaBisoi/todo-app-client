@@ -1,11 +1,17 @@
 import { BACKEND_HOST } from "@/constants/env";
 
-export default async function updateTodo({ title, description, id }) {
+export default async function updateTodo({
+  title,
+  description,
+  id,
+  isPinned = false,
+  labels = [],
+}) {
   try {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
-    const raw = JSON.stringify({ title, description, id });
+    const raw = JSON.stringify({ title, description, id, isPinned, labels });
 
     const response = await fetch(`${BACKEND_HOST}/todos`, {
       method: "PATCH",

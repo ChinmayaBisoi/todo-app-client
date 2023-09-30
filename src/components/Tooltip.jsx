@@ -5,13 +5,15 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 
-export function Tooltip({ content, children, contentCss = "text-sm" }) {
+export function Tooltip({ content, children, contentCss = "" }) {
   return (
     <HoverCard>
       <HoverCardTrigger asChild>
         <div>{children}</div>
       </HoverCardTrigger>
-      <HoverCardContent className={contentCss}>{content}</HoverCardContent>
+      <HoverCardContent className={`text-sm w-fit px-2 py-1 ${contentCss}`}>
+        {content}
+      </HoverCardContent>
     </HoverCard>
   );
 }

@@ -18,7 +18,6 @@ const UserProfileDropdown = ({ email }) => {
   async function handleLogout() {
     await logout()
       .then((res) => {
-        console.log(res);
         if (res.ok) {
           loginStateDispatch({
             type: "logout",
@@ -30,7 +29,6 @@ const UserProfileDropdown = ({ email }) => {
         }
       })
       .catch((err) => {
-        console.log(err);
         toast({
           title: "Unexpected error duing logging out",
           description: err,

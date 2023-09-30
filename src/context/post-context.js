@@ -1,3 +1,4 @@
+import { LOCAL_STORAGE_POSTS_KEY } from "@/constants/env";
 import * as React from "react";
 
 const PostStateContext = React.createContext(undefined);
@@ -9,59 +10,101 @@ const initialState = {
       id: "60a7af35-847b-41bd-89a1-480fc5fe5c0c",
       title: "Title 123",
       description: "Test description 123455",
+      isPinned: true,
+      labels: ["Hi text"],
+      updatedAt: "2023-09-30T14:39:57.193Z",
+      createdAt: "2023-09-30T14:39:57.193Z",
     },
   ],
-  savedPosts: null,
+  loadingTempPosts: true,
+  savedPosts: [],
+  loadingPosts: true,
 };
 
 function postStateReducer(state, action) {
-  console.log("here at start", state, action);
+  console.log("context state --- >", state, action);
 
   const tempPosts = state.tempPosts;
   const savedPosts = state.savedPosts;
   switch (action.type) {
-    case "save-temp-post": {
-      const newPost = action.post;
-      return { ...state, tempPosts: [newPost, ...tempPosts] };
-    }
-
-    case "update-temp-post": {
-      const updatedPost = action.post;
-      const filteredPosts = tempPosts.map((post) => {
-        if (post.id === updatedPost.id) return { ...updatedPost };
+    case "edit-temp-post": {
+      // edit-temp-post
+      const editedPost = action.post;
+      const newTempPosts = tempPosts.map((post) => {
+        if (post._id === editedPost._id) {
+          return editedPost;
+        }
         return post;
       });
-      return { ...state, tempPosts: [...filteredPosts] };
+      localStorage.setItem(
+        LOCAL_STORAGE_POSTS_KEY,
+        JSON.stringify({
+          posts: newTempPosts,
+        })
+      );
+      return { ...state, tempPosts: newTempPosts };
+    }
+
+    case "add-temp-post": {
+      //  add-new
+      localStorage.setItem(
+        LOCAL_STORAGE_POSTS_KEY,
+        JSON.stringify({
+          posts: [action.post, ...state.tempPosts],
+        })
+      );
+      return { ...state, tempPosts: [action.post, ...state.tempPosts] };
+    }
+
+    case "set-loading-temp-posts": {
+      return { ...state, loadingTempPosts: action.isLoading };
+    }
+
+    case "set-temp-posts": {
+      // on mount get and set all posts
+      const posts = action.posts;
+      return { ...state, tempPosts: [...posts] };
     }
 
     case "delete-temp-post": {
-      const filteredPosts = tempPosts.filter((k) => k.id !== action.postId);
+      const filteredPosts = state.tempPosts.filter(
+        (k) => k._id !== action.postId
+      );
+      localStorage.setItem(
+        LOCAL_STORAGE_POSTS_KEY,
+        JSON.stringify({ posts: filteredPosts })
+      );
       return { ...state, tempPosts: filteredPosts };
     }
 
+    // for permanent posts -----------
     case "set-posts": {
       const posts = action.posts;
-      console.log("posts set from backend");
       return { ...state, savedPosts: posts };
     }
 
-    case "save-post": {
-      const newPost = action.post;
-      return { ...state, savedPosts: [newPost, ...savedPosts] };
+    case "add-post": {
+      return { ...state, savedPosts: [...savedPosts, action.post] };
     }
 
-    case "update-post": {
-      const updatedPost = action.post;
-      const filteredPosts = savedPosts.map((post) => {
-        if (post._id === updatedPost._id) return { ...updatedPost };
+    case "edit-post": {
+      const editedPost = action.post;
+      const newPosts = savedPosts.map((post) => {
+        if (post._id === editedPost._id) {
+          return editedPost;
+        }
         return post;
       });
-      return { ...state, savedPosts: [...filteredPosts] };
+      return { ...state, savedPosts: newPosts };
+    }
+
+    case "set-loading-posts": {
+      return { ...state, loadingPosts: action.isLoading };
     }
 
     case "delete-post": {
       const filteredPosts = savedPosts.filter((k) => k._id !== action.postId);
-      return { ...state, savedPosts: filteredPosts };
+      return { ...state, tempPosts: filteredPosts };
     }
 
     default: {
