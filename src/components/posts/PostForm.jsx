@@ -171,15 +171,15 @@ const PostForm = ({
     }
   }
 
-  function initPostContent() {
-    setPost(postToEdit);
-  }
-
   useEffect(() => {
+    function initPostContent() {
+      setPost(postToEdit);
+    }
+
     if (editing) {
       initPostContent();
     }
-  }, []);
+  }, [editing]);
 
   return (
     <Modal

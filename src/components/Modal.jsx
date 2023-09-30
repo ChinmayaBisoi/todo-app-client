@@ -24,7 +24,7 @@ export function Modal({
 
   useEffect(() => {
     setCloseModal((prev) => close);
-  }, []);
+  }, [setCloseModal]);
 
   function close() {
     closeRef?.current?.click();
