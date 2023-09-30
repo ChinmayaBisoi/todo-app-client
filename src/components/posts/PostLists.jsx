@@ -77,7 +77,7 @@ const PostLists = ({
           );
         })
       ) : (
-        <p>No Posts present</p>
+        <p className="mb-10">No Posts present</p>
       )}
     </div>
   );
