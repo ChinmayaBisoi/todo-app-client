@@ -2,11 +2,10 @@ import { LOCAL_STORAGE_POSTS_KEY } from "@/constants/env";
 import { usePostStateDispatch } from "@/context/post-context";
 import addTodo from "@/pages/api/posts/add-todo";
 import updateTodo from "@/pages/api/posts/update-todo";
-import React, { useEffect, useId, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { uuid } from "uuidv4";
 import { Modal } from "../Modal";
 import { Button } from "../ui/button";
-import { Textarea } from "../ui/textarea";
 import { useToast } from "../ui/use-toast";
 import PostDialogContent from "./PostDialogContent";
 import PostDialogHeader from "./PostDialogHeader";
@@ -30,6 +29,8 @@ const PostTrigger = React.memo(({ editing = false, disabled = false }) => {
     </div>
   );
 });
+
+PostTrigger.displayName = "PostTrigger";
 
 const initialPostState = {
   title: "",
