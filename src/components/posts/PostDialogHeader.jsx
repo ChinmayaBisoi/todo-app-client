@@ -1,6 +1,4 @@
-import React from "react";
 import Pin from "../icons/Pin";
-import Unpin from "../icons/Unpin";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";

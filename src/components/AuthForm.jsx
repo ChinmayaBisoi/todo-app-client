@@ -123,7 +123,7 @@ const AuthForm = ({ type = "login" }) => {
       return;
     }
 
-    if (password !== confirmPassword) {
+    if (password !== password2) {
       toast({
         title: "Passwords are not matching",
         description: "",

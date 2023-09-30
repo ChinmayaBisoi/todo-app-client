@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import Cross from "../icons/Cross";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";

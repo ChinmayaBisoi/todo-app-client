@@ -1,16 +1,12 @@
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogCloser,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogCloser,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useEffect, useRef } from "react";
 
 export function Modal({

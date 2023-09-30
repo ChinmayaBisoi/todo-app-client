@@ -22,7 +22,7 @@ const Textarea = React.forwardRef(
       return () => {
         textarea.removeEventListener(autoResize, null);
       };
-    }, []);
+    }, [autoResizable, id]);
 
     return (
       <textarea

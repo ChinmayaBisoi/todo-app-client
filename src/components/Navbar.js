@@ -1,11 +1,8 @@
 import { useLoginState } from "@/context/login-context";
-import hello from "@/pages/api/hello";
 import Link from "next/link";
 import PencilRuler from "./icons/PencilRuler";
 import Login from "./Login";
 import NavMob from "./NavMob";
-import Register from "./Register";
-import { Button } from "./ui/button";
 import UserProfileDropdown from "./UserProfileDropdown";
 
 const Navbar = () => {

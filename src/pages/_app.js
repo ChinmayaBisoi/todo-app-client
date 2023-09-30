@@ -81,9 +81,7 @@ function Wrapper({ Component, pageProps }) {
               return -1;
             }
           });
-        await new Promise((res, rej) => {
-          setTimeout(() => res(), 600);
-        });
+
         postStateDispatch({
           type: "set-temp-posts",
           posts: sortedPosts,

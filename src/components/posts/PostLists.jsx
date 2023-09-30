@@ -1,6 +1,4 @@
 import { format } from "date-fns";
-import Link from "next/link";
-import React from "react";
 import VerticalDots from "../icons/VerticalDots";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";

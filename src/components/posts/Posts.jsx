@@ -1,20 +1,14 @@
 import { useLoginState } from "@/context/login-context";
 import { usePostState, usePostStateDispatch } from "@/context/post-context";
-import getAllTodos from "@/pages/api/posts/get-all-todos";
-import Link from "next/link";
-import React, { useState } from "react";
-import InformationCircle from "../icons/InformationCircle";
-import VerticalDots from "../icons/VerticalDots";
-import { Tooltip } from "../Tooltip";
-import { Button } from "../ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { format } from "date-fns";
-import { useToast } from "../ui/use-toast";
 import deleteTodo from "@/pages/api/posts/delete-todo";
-import PostLists from "./PostLists";
-import PostForm from "./PostForm";
-import { Input } from "../ui/input";
+import { useState } from "react";
 import Cross from "../icons/Cross";
+import InformationCircle from "../icons/InformationCircle";
+import { Tooltip } from "../Tooltip";
+import { Input } from "../ui/input";
+import { useToast } from "../ui/use-toast";
+import PostForm from "./PostForm";
+import PostLists from "./PostLists";
 
 function getSortedPosts(arr) {
   return arr

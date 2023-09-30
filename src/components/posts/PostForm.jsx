@@ -1,4 +1,3 @@
-import { LOCAL_STORAGE_POSTS_KEY } from "@/constants/env";
 import { usePostStateDispatch } from "@/context/post-context";
 import addTodo from "@/pages/api/posts/add-todo";
 import updateTodo from "@/pages/api/posts/update-todo";
@@ -39,7 +38,7 @@ const initialPostState = {
   isPinned: false,
 };
 
-function isValidSavePostReq({ title, description, editing = false }) {
+function isValidSavePostReq({ title, description }) {
   if (!title) {
     return "Title is a required field";
   } else if (!description) {
@@ -180,7 +179,7 @@ const PostForm = ({
     if (editing) {
       initPostContent();
     }
-  }, [editing]);
+  }, [editing, postToEdit]);
 
   return (
     <Modal

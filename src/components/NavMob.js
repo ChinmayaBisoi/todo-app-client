@@ -1,16 +1,6 @@
-import React from "react";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import Sidebar from "./Sidebar";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Hamburger from "./icons/Hamburger";
+import Sidebar from "./Sidebar";
 
 const NavMob = () => {
   const side = "left";
